@@ -14,8 +14,7 @@ interface AuthRequest extends Request {
   };
 }
 
-const VALID_ROLES = ['job_seeker', 'employer', 'admin'] as const;
-type UserRole = typeof VALID_ROLES[number];
+
 
 export class AuthController {
   private authService: AuthService;
@@ -79,7 +78,7 @@ export class AuthController {
       // Create user
       const user = await User.create({
         email,
-        password: hashedPassword,
+        passwordHash: hashedPassword,
         role: role || UserRole.JOB_SEEKER,
         firstName,
         lastName,

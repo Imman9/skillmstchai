@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -278,17 +278,16 @@ export class LoginComponent {
   isLoading = false;
 
   constructor(
-    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
-  }
-
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) { this.loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });}
+  
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
@@ -296,37 +295,44 @@ export class LoginComponent {
   
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          // Get the user from the auth service (not from response)
-          const user = this.authService.getCurrentUser();
-          
-          if (user?.role) {
+          console.log(response); 
+          localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+  
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+  
+          if (returnUrl) {
+            this.router.navigateByUrl(returnUrl);
+          } else {
+            const user = this.authService.getCurrentUser();
             let redirectPath = '';
-            
-            switch (user.role) {
+  
+            switch (user?.role) {
               case 'job_seeker':
-                redirectPath = '/job-seeker/dashboard';
+                redirectPath = '/job-seeker';
                 break;
               case 'employer':
-                redirectPath = '/employer/dashboard';
+                redirectPath = '/employer';
                 break;
               case 'admin':
-                redirectPath = '/admin/dashboard';
+                redirectPath = '/admin';
                 break;
             }
   
             if (redirectPath) {
-              this.router.navigateByUrl(redirectPath)
-                .then(() => {
-                  this.snackBar.openFromComponent(ToastNotificationComponent, {
-                    data: {
-                      message: 'Login successful!',
-                      type: 'success',
-                      duration: 3000,
-                    },
-                  });
+              this.router.navigateByUrl(redirectPath).then(() => {
+                this.snackBar.openFromComponent(ToastNotificationComponent, {
+                  data: {
+                    message: 'Login successful!',
+                    type: 'success',
+                    duration: 3000,
+                  },
                 });
+              });
             }
           }
+  
           this.isLoading = false;
         },
         error: (error) => {
@@ -342,4 +348,5 @@ export class LoginComponent {
       });
     }
   }
+  
 }
