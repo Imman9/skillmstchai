@@ -14,6 +14,7 @@ import { employerRoutes } from "./routes/employer.routes";
 import { jobRoutes } from "./routes/jobs.routes";
 import { applicationRoutes } from "./routes/application.routes";
 import { skillsRoutes } from "./routes/skills.routes";
+import { cvRoutes } from "./routes/cv-routes";
 
 // Load environment variables
 dotenv.config();
@@ -35,11 +36,15 @@ app.use("/api/job-seeker-skills", jobSeekerSkillRoutes);
 app.use("/api/employers", employerRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/cv",cvRoutes)
 
 // Error handling
 app.use(errorHandler as ErrorRequestHandler);
 
 const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.send('Welcome to the backend!');
+});
 
 // Start server
 const startServer = async () => {

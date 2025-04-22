@@ -7,6 +7,9 @@ import { AuthService } from './auth.service';
 export interface JobSeekerProfile {
   id?: number;
   userId: number;
+  firstName:string;
+  lastName:string;
+  email:string;
   headline?: string;
   summary?: string;
   phone?: string;

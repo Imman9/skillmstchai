@@ -14,11 +14,17 @@ console.log('Database Configuration:', {
 
 export const sequelize = new Sequelize({
   dialect: "postgres",
-  host: process.env.DB_HOST || "localhost",
+  host: process.env.DB_HOST || "db",
   port: parseInt(process.env.DB_PORT || "5432"),
   username: process.env.DB_USER || "postgres",
   password: process.env.DB_PASSWORD || "",
   database: process.env.DB_NAME || "skillsmatchai",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // For self-signed certificates; set to true in production with valid certificates
+    }
+  },
   logging: (msg) => {
     console.log(`[Sequelize] ${msg}`);
     if (msg.includes('error')) {

@@ -1,7 +1,7 @@
 export enum UserRole {
-  JOB_SEEKER = 'JOB_SEEKER',
-  EMPLOYER = 'EMPLOYER',
-  ADMIN = 'ADMIN',
+  JOB_SEEKER = 'job_seeker',
+  EMPLOYER = 'employer',
+  ADMIN = 'admin',
 }
 
 export interface User {
