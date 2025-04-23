@@ -14,11 +14,11 @@ console.log('Database Configuration:', {
 
 export const sequelize = new Sequelize({
   dialect: "postgres",
-  host: process.env.DB_HOST || "db",
+  host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "5432"),
-  username: process.env.DB_USER || "postgres",
+  username: process.env.DB_USER ,
   password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "skillsmatchai",
+  database: process.env.DB_NAME ,
   dialectOptions: {
     ssl: {
       require: true,
@@ -29,10 +29,10 @@ export const sequelize = new Sequelize({
     console.log(`[Sequelize] ${msg}`);
     if (msg.includes('error')) {
       console.log('Connection details:', {
-        host: process.env.DB_HOST || "localhost",
+        host: process.env.DB_HOST ,
         port: process.env.DB_PORT || "5432",
         username: process.env.DB_USER || "postgres",
-        database: process.env.DB_NAME || "skillsmatchai"
+        database: process.env.DB_NAME 
       });
     }
   },

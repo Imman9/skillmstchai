@@ -53,7 +53,7 @@ const startServer = async () => {
     console.log("Database connection established successfully.");
 
     // Sync database (create tables if they don't exist)
-    await sequelize.sync();
+    await sequelize.sync({alter:true});
     console.log("Database synchronized successfully.");
 
     app.listen(PORT, () => {

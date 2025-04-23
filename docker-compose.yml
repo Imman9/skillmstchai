@@ -1,18 +1,6 @@
 
 
 services:
-  db:
-    image: postgres:17
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "${DB_PORT}:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    networks:
-      - app-network
 
   backend:
     build:
@@ -21,8 +9,7 @@ services:
       - ./backend/.env
     ports:
       - "3000:3000"
-    depends_on:
-      - db
+   
     networks:
       - app-network
 

@@ -46,7 +46,7 @@ import { AuthService } from '../../../core/services/auth.service';
         </mat-card-header>
 
         <mat-card-content>
-          <p><strong>Email:</strong> {{ currentProfile?.email }}</p>
+          <p><strong>Email:</strong> {{ currentProfile?.email }}</p>cd 
           <p><strong>Phone:</strong> {{ currentProfile?.phone }}</p>
           <p><strong>Location:</strong> {{ currentProfile?.location }}</p>
           <p><strong>Summary:</strong> {{ currentProfile?.summary }}</p>
